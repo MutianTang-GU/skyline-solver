@@ -1,4 +1,8 @@
-type building = number[];
+type building = {
+    starting: number;
+    ending: number;
+    height: number;
+};
 type point = [number, number];
 type skyline = point[];
 
@@ -75,8 +79,8 @@ function find_skyline(buildings: building[]): skyline {
     if (buildings.length === 1) {
         let b = buildings[0];
         return [
-            [b[0], b[2]],
-            [b[1], 0],
+            [b.starting, b.height],
+            [b.ending, 0],
         ];
     }
     //otherwise divide buildings into 2 parts
@@ -90,7 +94,14 @@ function find_skyline(buildings: building[]): skyline {
 
 function parse_input(input: string): building[] {
     let lines = input.trim().split("\n");
-    return lines.map(line => line.split(" ").map(n => parseFloat(n)));
+    return lines.map(function (line) {
+        let l = line.split(/[^\d]+/);
+        return {
+            starting: parseFloat(l[0]),
+            ending: parseFloat(l[2]),
+            height: parseFloat(l[1]),
+        };
+    });
 }
 
 function solve(input: string): string {
