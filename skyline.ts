@@ -95,12 +95,21 @@ function find_skyline(buildings: building[]): skyline {
 function parse_input(input: string): building[] {
     let lines = input.trim().split("\n");
     return lines.map(function (line) {
-        let l = line.split(/[^\d]+/);
-        return {
+        let l = line.split(/[^\.\d]+/);
+        if (l.length !== 3) {
+            window.alert("Invalid input: " + line);
+            throw new Error("invalid input");
+        }
+        let b = {
             starting: parseFloat(l[0]),
             ending: parseFloat(l[2]),
             height: parseFloat(l[1]),
         };
+        if (!(b.ending > b.starting)) {
+            window.alert("building ends before starts: " + line);
+            throw new Error("invalid input");
+        }
+        return b;
     });
 }
 
